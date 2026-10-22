@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIBE Credits Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="calculator-container">
+    <header class="calc-header">
+      <h1>VIBE Credits Calculator</h1>
+      <p>Calculate employee contribution score based on Impact, Complexity, Feedback, Hours, and Band.</p>
+    </header>
+
+    <div class="calc-card">
+      <form id="vibe-form">
+        <!-- Impact -->
+        <div class="form-row">
+          <label for="impact-select">Impact</label>
+          <select id="impact-select">
+            <option value="high" selected>High (5 pts)</option>
+            <option value="medium">Medium (3 pts)</option>
+            <option value="low">Low (1 pt)</option>
+          </select>
+        </div>
+
+        <!-- Complexity -->
+        <div class="form-row">
+          <label for="complexity-select">Complexity</label>
+          <select id="complexity-select">
+            <option value="high">High (3 pts)</option>
+            <option value="medium" selected>Medium (2 pts)</option>
+            <option value="low">Low (1 pt)</option>
+          </select>
+        </div>
+
+        <!-- Feedback -->
+        <div class="form-row">
+          <label for="feedback-select">Feedback</label>
+          <select id="feedback-select">
+            <option value="exceeds" selected>Exceeds (5 pts)</option>
+            <option value="meets">Meets (3 pts)</option>
+            <option value="does_not_meet">Does Not Meet (1 pt - Gate Fail)</option>
+          </select>
+        </div>
+
+        <!-- Hours -->
+        <div class="form-row">
+          <label for="hours-input">Time Invested (Hours)</label>
+          <input type="number" id="hours-input" min="0" max="100" step="0.5" value="6">
+        </div>
+
+        <!-- Band -->
+        <div class="form-row">
+          <label for="band-select">Band</label>
+          <select id="band-select">
+            <option value="A1">A1 (0.8x)</option>
+            <option value="A2">A2 (0.9x)</option>
+            <option value="A3" selected>A3 (1.0x)</option>
+            <option value="A4">A4 (1.1x)</option>
+            <option value="A5">A5 (1.3x)</option>
+            <option value="A6">A6 (1.5x)</option>
+          </select>
+        </div>
+
+        <!-- Preset Quick Buttons -->
+        <div class="presets-row">
+          <span class="preset-label">Quick Scenarios:</span>
+          <button type="button" class="preset-btn" data-preset="1">Scenario 1 (Doc Example)</button>
+          <button type="button" class="preset-btn" data-preset="2">Scenario 2 (Low Impact)</button>
+          <button type="button" class="preset-btn" data-preset="4">Scenario 4 (Quality Gate)</button>
+          <button type="button" class="preset-btn" data-preset="6">Scenario 6 (Low Hours)</button>
+        </div>
+      </form>
+
+      <!-- Results Display -->
+      <div class="results-box">
+        <div class="score-header">
+          <span>Final VIBE Score</span>
+          <span id="tier-badge" class="badge badge-strong">Strong</span>
+        </div>
+
+        <div class="final-score" id="final-score">0.72</div>
+
+        <div id="quality-gate-msg" class="gate-warning hidden">
+          ⚠️ <strong>Quality Gate Triggered:</strong> Feedback is "Does Not Meet". Score is set to <strong>0.00</strong>.
+        </div>
+
+        <hr class="divider">
+
+        <!-- Breakdown Details -->
+        <div class="breakdown-grid">
+          <div class="breakdown-item">
+            <span class="breakdown-label">Value (V)</span>
+            <span class="breakdown-value" id="val-display">0.89</span>
+            <small>(0.4·I + 0.3·C + 0.3·F)^1.2</small>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-label">Effort (E)</span>
+            <span class="breakdown-value" id="effort-display">0.81</span>
+            <small>log(1+Hours) / log(11)</small>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-label">Base (V × E)</span>
+            <span class="breakdown-value" id="base-display">0.72</span>
+            <small>Value × Effort</small>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-label">Band Divisor</span>
+            <span class="breakdown-value" id="band-display">1.0</span>
+            <small>Band A3 Multiplier</small>
+          </div>
+        </div>
+
+        <!-- Formula Note -->
+        <div class="formula-footer">
+          <code>Final = ((0.4·I + 0.3·C + 0.3·F)^1.2 × log(1+H)/log(11)) / BandMultiplier</code>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
